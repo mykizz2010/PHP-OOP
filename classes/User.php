@@ -1,0 +1,112 @@
+<?php
+
+class User
+{
+    private $db = null;
+    private $tableName = 'users';
+    private $data = null;
+    private $sessionName;
+    private $isLoggedIn = false;
+
+    /**
+     * User constructor.
+     * @param null $db
+     */
+    public function __construct($user_id = null)
+    {
+        $this->db = DB::getInstance();
+        $this->sessionName = Config::get('session/session_name');
+        
+        if(!$user_id) {
+            if(Session::exists($this->sessionName)){
+                $user = Session::get($this->sessionName);
+                
+                if($this->findById($user)){
+                    $this->isLoggedIn = true;
+                } else {
+                    //process logout
+                }
+            } 
+        } else{
+            $this->findById($user_id);
+           // $this->first($user);
+        }
+
+        // if ($user_id) {
+           
+        // }
+    }
+
+    public function update($attributes)
+    { 
+        if(!$user_id && $this->isLoggedIn())
+        {
+            $user_id = $this->data()->user_id;
+        }
+        if(!$this->db->update('username', 'name', $id, $attributes))
+        {
+        throw new Exception('Sorry update fail! try again..');
+        }
+    }
+
+
+    public function create($attributes)
+    {
+        if(count($attributes) < 1) {
+            return false;
+        }
+        if(!$this->db->create($this->tableName, $attributes)->error()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function findById($id)
+    {
+        $result = $this->db->get($this->tableName, array('id', '=', $id));
+        if($result->count()) {
+            $this->data = $result->first();
+            return true;
+        }
+        return false;
+    }
+
+    public function find($email)
+    {
+        $result = $this->db->get($this->tableName, array('email', '=', $email));
+        if($result->count()) {
+            $this->data = $result->first();
+            return true;
+        }
+        return false;
+    }
+
+    public function login($email = null, $password = null)
+    {
+        if ($email) {
+            if($this->find($email)) {
+                if($this->data()->password === Hash::make($password, $this->data()->salt)) {
+                    Session::put($this->sessionName, $this->data()->id);
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public function logout()
+    {
+        Session::delete($this->sessionName);
+    }
+
+    public function data()
+    {
+        return $this->data;
+    }
+    public function isLoggedIn()
+    {
+        return $this->isLoggedIn;
+    }
+}
