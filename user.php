@@ -217,84 +217,6 @@ $posts = (new Post())->all();
               <li class="footer"><a href="#">View all</a></li>
             </ul>
           </li>
-          <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Create a nice theme
-                        <small class="pull-right">40%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">40% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Some task I need to do
-                        <small class="pull-right">60%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Make beautiful transitions
-                        <small class="pull-right">80%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">80% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -329,7 +251,7 @@ $posts = (new Post())->all();
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="profile.php" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
                   <a href="logout.php" class="btn btn-default btn-flat">Sign out</a>
@@ -353,7 +275,7 @@ $posts = (new Post())->all();
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="dist/img/user8-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo $user->data()->name;  ?></p>
@@ -422,238 +344,237 @@ $posts = (new Post())->all();
 
     <!-- Main content -->
 
-   <section class="content">
+    <section class="content">
 
-      <!-- Main row -->
-      <div class="row">
-        <!-- Left col -->
-        <div class="col-md-8">
-        <?php
-        if($posts) {
-            foreach ($posts as $post) {
-        ?>
-        <div class="box box-success">
-          <div class="col-md">
-          <!-- Box Comment -->
-          <div class="box box-widget">
-            <div class="box-header with-border">
-              <div class="user-block">
-                <img class="img-circle" src="dist/img/user1-128x128.jpg" alt="User Image">
-                <span class="username"><a href="#"><?php echo (new User($post->user_id))->data()->name ?></a></span>
-                <span class="description">Shared publicly - 7:30 PM Today</span>
-              </div>
-              <!-- /.user-block -->
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">
-                  <i class="fa fa-circle-o"></i></button>
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-              </div>
-              <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <img class="img-responsive pad" src="<?php echo $post->media_path; ?>" alt="Photo">
-
-              <p><h5><strong><?php echo $post->caption; ?></strong></h5></p>
-
-              <?php if ($post->user_id !== Session::get(Config::get('session/session_name'))) {
-                        ?>
-              <?php $following = (new Follow())->following(Session::get(Config::get('session/session_name')), $post->user_id); ?>
-              <button class="btn follow_button_<?php echo $post->user_id; ?> btn-xs<?php echo (($following) ? ' btn-success' : ' btn-primary'); ?>"
-                  onclick="<?php echo (($following) ? 'unfollow('.$post->user_id .')' : 'follow('.$post->user_id .')'); ?>">
-                <?php echo (($following) ? 'Following' : 'Follow'); ?><i class="fa fa-share"></i>
-              </button>
-              <?php } ?>
-
-              <?php $liked = (new Like())->isLiked($post->id, Session::get(Config::get('session/session_name'))); ?>
-              <button type="button" id="like_button_<?php echo $post->id; ?>" class="btn btn-primary btn-xs <?php echo (($liked) ? ' liked' : ' not-liked'); ?>" onclick="<?php echo (($liked) ? 'unlike('.$post->id .')' : 'like('.$post->id .')'); ?>"><i class="fa fa-thumbs-o-up"></i> Like</button>
-
-              <span class="pull-right text-muted"><strong><span id="like_count_<?php echo $post->id; ?>">
-              <?php echo (new Like())->count($post->id); ?>
-              </span></strong> <span style="color: darkred;">Likes</span> | <?php echo (new Comment())->count($post->id); ?> comments</span>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer box-comments">
-            <p><?php echo $post->description; ?></p>
-              <!-- /.box-comment -->
-              <div class="box-comment">
-                <div id="comment_section_<?php echo $post->id; ?>">
-                  <?php 
-                  if($comments = (new Comment())->getPostComments($post->id)){
-                      foreach ($comments as $comment) {
-                        ?>
-                        <hr>
-                      <span class="username">
-                      <img class="img-circle img-sm" src="dist/img/user4-128x128.jpg" alt="User Image"> &nbsp;
-                        <strong><?php echo (new User($comment->user_id))->data()->name; ?></strong>
-                       <?php $date = new DateTime($comment->created_at); ?>
-                        <span class="text-muted pull-right"><?php echo date_format($date, 'G:ia \ l'); ?> </span>
-                      </span><!-- /.username -->
-                      &nbsp;&nbsp;
-                    <p> <?php echo $comment->comment; ?></p>
-                    <?php
-                      }
-                    }
-                ?>
-                </div>
-
-              </div>
-              <!-- /.box-comment -->
-            </div>
-            <!-- /.box-footer -->
-            <div class="box-footer">
-              <span class="input-group-btn pull-left">
-                   <button class="btn btn-primary btn-xs" onclick="triggerCommentModal(<?php echo $post->id ?>)">Comment</button>
-                </span>
-            </div>
-            <!-- /.box-footer -->
-          </div>
-          <!-- /.box -->
+<!-- Main row -->
+<div class="row">
+  <!-- Left col -->
+  <div class="col-md-8">
+  <?php
+  if($posts) {
+      foreach ($posts as $post) {
+  ?>
+  <div class="box box-success">
+    <div class="col-md">
+    <!-- Box Comment -->
+    <div class="box box-widget">
+      <div class="box-header with-border">
+        <div class="user-block">
+          <img class="img-circle" src="dist/img/user1-128x128.jpg" alt="User Image">
+          <span class="username"><a href="#"><?php echo (new User($post->user_id))->data()->name ?></a></span>
+          <span class="description">Shared publicly - 7:30 PM Today</span>
         </div>
+        <!-- /.user-block -->
+        <div class="box-tools">
+          <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">
+            <i class="fa fa-circle-o"></i></button>
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
         </div>
-          <?php
-          }
-        } else {
-              echo 'There are no posts at the moment';
-          }
-      ?>
-        </div>
-        
-        <!-- /.col -->
-
-        <div class="col-md-4">
-          <!-- Info Boxes Style 2 -->
-          <div class="info-box bg-yellow">
-            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">Post</span>
-              <span class="info-box-number">5,200</span>
-
-              <div class="progress">
-                <div class="progress-bar" style="width: 50%"></div>
-              </div>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-          <div class="info-box bg-green">
-            <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">Followers</span>
-              <span class="info-box-number">92,050</span>
-
-              <div class="progress">
-                <div class="progress-bar" style="width: 20%"></div>
-              </div>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-          <div class="info-box bg-red">
-            <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
-
-            <div class="info-box-content">
-              <span class="info-box-text">Followed</span>
-              <span class="info-box-number">114,381</span>
-
-              <div class="progress">
-                <div class="progress-bar" style="width: 70%"></div>
-              </div>
-            </div>
-            <!-- /.info-box-content -->
-          </div>
-          <!-- /.info-box -->
-
-          <div class="box box-default">
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-12">
-              <!-- USERS LIST -->
-              <div class="box box-danger">
-                <div class="box-header with-border">
-                  <h3 class="box-title" style="fo">Latest Members</h3>
-
-                  <div class="box-tools pull-right">
-                    <span class="label label-danger">8 New Members</span>
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body no-padding">
-                  <ul class="users-list clearfix">
-                    <li>
-                      <img src="dist/img/user1-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Alexander Pierce</a>
-                      <span class="users-list-date">Today</span>
-                    </li>
-                    <li>
-                      <img src="dist/img/user8-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Norman</a>
-                      <span class="users-list-date">Yesterday</span>
-                    </li>
-                    <li>
-                      <img src="dist/img/user7-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Jane</a>
-                      <span class="users-list-date">12 Jan</span>
-                    </li>
-                    <li>
-                      <img src="dist/img/user6-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">John</a>
-                      <span class="users-list-date">12 Jan</span>
-                    </li>
-                    <li>
-                      <img src="dist/img/user2-160x160.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Alexander</a>
-                      <span class="users-list-date">13 Jan</span>
-                    </li>
-                    <li>
-                      <img src="dist/img/user5-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Sarah</a>
-                      <span class="users-list-date">14 Jan</span>
-                    </li>
-                    <li>
-                      <img src="dist/img/user4-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Nora</a>
-                      <span class="users-list-date">15 Jan</span>
-                    </li>
-                    <li>
-                      <img src="dist/img/user3-128x128.jpg" alt="User Image">
-                      <a class="users-list-name" href="#">Nadia</a>
-                      <span class="users-list-date">15 Jan</span>
-                    </li>
-                  </ul>
-                  <!-- /.users-list -->
-                </div>
-                <!-- /.box-body -->
-                <!-- /.box-footer -->
-              </div>
-              <!--/.box -->
-            </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-            <!-- /.footer -->
-          </div>
-          <!-- /.box -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
+        <!-- /.box-tools -->
       </div>
-      <!-- /.row -->
-    </section>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <img class="img-responsive pad" src="<?php echo $post->media_path; ?>" alt="Photo">
 
-    <!-- /.content -->
+        <p><h5><strong><?php echo $post->caption; ?></strong></h5></p>
+
+        <?php if ($post->user_id !== Session::get(Config::get('session/session_name'))) {
+                  ?>
+        <?php $following = (new Follow())->following(Session::get(Config::get('session/session_name')), $post->user_id); ?>
+        <button class="btn follow_button_<?php echo $post->user_id; ?> btn-xs<?php echo (($following) ? ' btn-success' : ' btn-primary'); ?>"
+            onclick="<?php echo (($following) ? 'unfollow('.$post->user_id .')' : 'follow('.$post->user_id .')'); ?>">
+          <?php echo (($following) ? 'Following' : 'Follow'); ?><i class="fa fa-share"></i>
+        </button>
+        <?php } ?>
+
+        <?php $liked = (new Like())->isLiked($post->id, Session::get(Config::get('session/session_name'))); ?>
+        <button type="button" id="like_button_<?php echo $post->id; ?>" class="btn btn-primary btn-xs <?php echo (($liked) ? ' liked' : ' not-liked'); ?>" onclick="<?php echo (($liked) ? 'unlike('.$post->id .')' : 'like('.$post->id .')'); ?>"><i class="fa fa-thumbs-o-up"></i> Like</button>
+
+        <span class="pull-right text-muted"><strong><span id="like_count_<?php echo $post->id; ?>">
+        <?php echo (new Like())->count($post->id); ?>
+        </span></strong> <span style="color: darkred;">Likes</span> | <?php echo (new Comment())->count($post->id); ?> comments</span>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer box-comments">
+      <p><?php echo $post->description; ?></p>
+        <!-- /.box-comment -->
+        <div class="box-comment">
+          <div id="comment_section_<?php echo $post->id; ?>">
+            <?php 
+            if($comments = (new Comment())->getPostComments($post->id)){
+                foreach ($comments as $comment) {
+                  ?>
+                  <hr>
+                <span class="username">
+                <img class="img-circle img-sm" src="dist/img/user4-128x128.jpg" alt="User Image"> &nbsp;
+                  <strong><?php echo (new User($comment->user_id))->data()->name; ?></strong>
+                 <?php $date = new DateTime($comment->created_at); ?>
+                  <span class="text-muted pull-right"><?php echo date_format($date, 'G:ia \ l'); ?> </span>
+                </span><!-- /.username -->
+                &nbsp;&nbsp;
+              <p> <?php echo $comment->comment; ?></p>
+              <?php
+                }
+              }
+          ?>
+          </div>
+
+        </div>
+        <!-- /.box-comment -->
+      </div>
+      <!-- /.box-footer -->
+      <div class="box-footer">
+        <span class="input-group-btn pull-left">
+             <button class="btn btn-primary btn-xs" onclick="triggerCommentModal(<?php echo $post->id ?>)">Comment</button>
+          </span>
+      </div>
+      <!-- /.box-footer -->
+    </div>
+    <!-- /.box -->
   </div>
+  </div>
+    <?php
+    }
+  } else {
+        echo 'There are no posts at the moment';
+    }
+?>
+  </div>
+  
+  <!-- /.col -->
+
+  <div class="col-md-4">
+    <!-- Info Boxes Style 2 -->
+    <div class="info-box bg-yellow">
+      <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Post</span>
+        <span class="info-box-number">310</span>
+        <div class="progress">
+          <div class="progress-bar" style="width: 80%"></div>
+        </div>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+    <div class="info-box bg-green">
+      <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Followers</span>
+        <span class="info-box-number">20</span>
+
+        <div class="progress">
+          <div class="progress-bar" style="width: 20%"></div>
+        </div>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+    <div class="info-box bg-red">
+      <span class="info-box-icon"><i class="ion ion-ios-people-outline"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Followed</span>
+        <span class="info-box-number"><?php echo (new Follow())->user_follow($user->data()->id); ?></span>
+
+        <div class="progress">
+          <div class="progress-bar" style="width: 70%"></div>
+        </div>
+      </div>
+      <!-- /.info-box-content -->
+    </div>
+    <!-- /.info-box -->
+
+    <div class="box box-default">
+      <!-- /.box-header -->
+      <div class="box-body">
+        <div class="row">
+          <div class="col-md-12">
+        <!-- USERS LIST -->
+        <div class="box box-danger">
+          <div class="box-header with-border">
+            <h3 class="box-title" style="fo">Latest Members</h3>
+
+            <div class="box-tools pull-right">
+              <span class="label label-danger">8 New Members</span>
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body no-padding">
+            <ul class="users-list clearfix">
+              <li>
+                <img src="dist/img/user1-128x128.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Alexander Pierce</a>
+                <span class="users-list-date">Today</span>
+              </li>
+              <li>
+                <img src="dist/img/user8-128x128.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Norman</a>
+                <span class="users-list-date">Yesterday</span>
+              </li>
+              <li>
+                <img src="dist/img/user7-128x128.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Jane</a>
+                <span class="users-list-date">12 Jan</span>
+              </li>
+              <li>
+                <img src="dist/img/user6-128x128.jpg" alt="User Image">
+                <a class="users-list-name" href="#">John</a>
+                <span class="users-list-date">12 Jan</span>
+              </li>
+              <li>
+                <img src="dist/img/user2-160x160.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Alexander</a>
+                <span class="users-list-date">13 Jan</span>
+              </li>
+              <li>
+                <img src="dist/img/user5-128x128.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Sarah</a>
+                <span class="users-list-date">14 Jan</span>
+              </li>
+              <li>
+                <img src="dist/img/user4-128x128.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Nora</a>
+                <span class="users-list-date">15 Jan</span>
+              </li>
+              <li>
+                <img src="dist/img/user3-128x128.jpg" alt="User Image">
+                <a class="users-list-name" href="#">Nadia</a>
+                <span class="users-list-date">15 Jan</span>
+              </li>
+            </ul>
+            <!-- /.users-list -->
+          </div>
+          <!-- /.box-body -->
+          <!-- /.box-footer -->
+        </div>
+        <!--/.box -->
+      </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.footer -->
+    </div>
+    <!-- /.box -->
+    </div>
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->
+</section>
+
+<!-- /.content -->
+</div>
   <!-- /.content-wrapper -->
 
   <footer class="main-footer">

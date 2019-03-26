@@ -12,6 +12,7 @@ class Post
     private $tableName = 'posts';
     private $target_dir = "upload/";
     private $imagePath;
+    private $user_posts = null;
 
     /**
      * Post constructor.
@@ -54,6 +55,25 @@ class Post
         }
 
         return false;
+    }
+
+    public function user_posts($user_id, $post_id)
+    {
+        $sql = 'SELECT post FROM '. $this->tableName .' WHERE user_id = ? "=" post_id';
+        return $this->db->query($sql, [$user_id, '$post_id'])->count();
+        
+    }
+
+    public function getPostComments($post_id)
+    {
+        return $this->db
+            ->get($this->tableName, array('post_id', '=', $post_id), array('created_at', 'DESC'))
+            ->results();
+    }
+
+    public function count($post_id)
+    {
+        return $this->db->get($this->tableName, array('post_id', '=', $post_id))->count();
     }
 
 

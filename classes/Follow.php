@@ -39,4 +39,11 @@ class Follow
         return false;
     }
 
+    public function user_follow($user_id)
+    {
+        $sql = 'SELECT follow FROM '. $this->tableName .'user_id = ?';
+        return $this->db->query($sql, [$user_id])->count();
+        
+    }
+
 }
